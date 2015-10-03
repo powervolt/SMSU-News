@@ -27,21 +27,20 @@ class SNFeedRetriever {
         manager.GET( self.feedURL,
             parameters: nil,
             success: { (operation: AFHTTPRequestOperation!,responseObject: AnyObject!) in
-                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false;
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false;
                 if let jsonResult = responseObject as? Dictionary<String, AnyObject> {
                     let feedArray = SNFeed.parseFeedFromDictionar(jsonResult)
                     self.delegate?.didLoadSNFeed(feedArray)
                 }
                 else{
-                    print("Failed parsing response")
+                    print("Failed parsing feed response")
                     self.delegate?.didFailLoadingSNFeed(nil)
                 }
             },
             failure: { (operation: AFHTTPRequestOperation!,error: NSError!) in
-                 UIApplication.sharedApplication().networkActivityIndicatorVisible = true;
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false;
                 print("Failed loading feeds \(error.description)")
                 self.delegate?.didFailLoadingSNFeed(error)
         })
-
     }
 }

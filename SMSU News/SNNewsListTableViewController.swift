@@ -7,9 +7,7 @@
 //
 
 import UIKit
-import MBProgressHUD
 import MWFeedParser
-import Social
 
 class SNNewsListTableViewController: UITableViewController {
     
@@ -30,6 +28,8 @@ class SNNewsListTableViewController: UITableViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 91.0
         tableView.allowsMultipleSelectionDuringEditing = false;
+        
+        tableView.tableFooterView = UIView()
     }
     
     override func didReceiveMemoryWarning() {
@@ -102,7 +102,7 @@ class SNNewsListTableViewController: UITableViewController {
             let storyBoard = UIStoryboard(name: "SMSUNews", bundle: nil)
             let controller = storyBoard.instantiateViewControllerWithIdentifier(SNFullNewsViewController.STORYBOARD_IDENTIFIER) as! SNFullNewsViewController
             
-            controller.newsURL = self.newsList[indexPath.row].link
+            controller.newsItem = newsList[indexPath.row]
             self.navigationController?.pushViewController(controller, animated: true)
     }
     

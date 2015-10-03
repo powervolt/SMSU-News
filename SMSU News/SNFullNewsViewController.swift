@@ -7,72 +7,151 @@
 //
 
 import UIKit
+import WebKit
+import MWFeedParser
 
-class SNFullNewsViewController: UIViewController, UIWebViewDelegate {
-
-    static let STORYBOARD_IDENTIFIER = "SNFullNewsViewController"
-    var newsURL : String?
-    var newSummary : String?
+class SNFullNewsViewController: UIViewController, WKNavigationDelegate {
     
-    @IBOutlet weak var newsWebViewController: UIWebView!
-    @IBOutlet weak var newLabel: UILabel!
+    static let STORYBOARD_IDENTIFIER = "SNFullNewsViewController"
+    static let LOADING_NOTIFICATION = "loading"
+    static let PROGRESS_NOTIFICATION = "estimatedProgress"
+    
+    var newsItem : MWFeedItem?
+    
+    var newsWebView: WKWebView
+    var retryButton: UIBarButtonItem!
+    
+    var inWebView: Bool = false
+    
+    @IBOutlet weak var progressView: UIProgressView!
+    @IBOutlet weak var backButton: UIBarButtonItem!
+    
+    required init?(coder aDecoder: NSCoder) {
+        self.newsWebView = WKWebView()
+        super.init(coder: aDecoder)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let url = NSURL(string: self.newsURL!)
+        
+        //add retry button
+        retryButton = UIBarButtonItem(image: UIImage(named: "Refresh"), style: .Plain, target: self, action: "reloadWebsite")
+        navigationItem.rightBarButtonItem = retryButton
+        self.retryButton.enabled = false;
+        
+        self.backButton.enabled = false
+        
+        //setup segmented control
+        let text = UIImage(named: "Word")
+        let web = UIImage(named: "Web")
+        
+        let segmentedControl = UISegmentedControl(items: [text!,web!])
+        segmentedControl.selectedSegmentIndex = 0;
+        segmentedControl.contentMode = .ScaleAspectFit
+        segmentedControl.addTarget(self, action: "segmentedControlTapped:", forControlEvents: .ValueChanged)
+        navigationItem.titleView = segmentedControl
 
-        //self.newsWebViewController.loadRequest(NSURLRequest(URL: url!), cachePolicy: NSURLCacheStoragePolicy.Allowed, timeoutInterval: timeout)
         
-        let data = try! NSURLConnection.sendSynchronousRequest(NSURLRequest(URL: url!), returningResponse: nil)
-        let string = NSString.init(data: data, encoding: NSUTF8StringEncoding) as! String
+        progressView.setProgress(0, animated: false)
         
-        //let newString = String(htmlEncodedString: string);
+        newsWebView.addObserver(self, forKeyPath: SNFullNewsViewController.LOADING_NOTIFICATION, options: .New, context: nil)
+        newsWebView.addObserver(self, forKeyPath: SNFullNewsViewController.PROGRESS_NOTIFICATION, options: .New, context: nil)
         
-        self.newsWebViewController.loadHTMLString(string, baseURL: url)
-        self.newsWebViewController.delegate = self
-        self.newsWebViewController.scalesPageToFit = true
-        self.newsWebViewController.mediaPlaybackRequiresUserAction = true
-        self.newsWebViewController.allowsInlineMediaPlayback = true
-        //self.newsWebViewController.allowsLinkPreview = true;
+        self.newsWebView.navigationDelegate = self
+        newsWebView.translatesAutoresizingMaskIntoConstraints = false
+        view.insertSubview(newsWebView, belowSubview: progressView)
+        
+        let height = NSLayoutConstraint(item: newsWebView, attribute: .Height, relatedBy: .Equal, toItem: view, attribute: .Height, multiplier: 1, constant: 0)
+        
+        let width = NSLayoutConstraint(item: newsWebView, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0)
+        
+        view.addConstraints([height, width])
+        
+        loadHTMLSummary()
     }
     
-    //MARK: UIWebViewDelegate Methods
-    func webView(webView: UIWebView, shouldStartLoadWithRequest
-        request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-            switch(navigationType){
-            case .LinkClicked:
-                print("linkClicked")
-                break
-            case .FormResubmitted:
-                print("FormResubmitted")
-                break
-            case .Reload:
-                print("Reload")
-                break
-            case .BackForward:
-                 print("BackForward")
-                break
-            case .Other:
-                 print("Other")
-                break
-            case .FormSubmitted:
-                 print("FormSubmitted")
-                break
+    func reloadWebsite(){
+        self.newsWebView.reload()
+    }
+    
+    func segmentedControlTapped(control: UISegmentedControl) {
+        if(control.selectedSegmentIndex == 0){
+           loadHTMLSummary()
+        }
+        else {
+            loadWebPage()
+        }
+    }
+    
+    func loadHTMLSummary() {
+        newsWebView.loadHTMLString("</br>" + "<b><font size=\"45\">" + newsItem!.title + "</font></b></br></br>" + "<font size=\"30\">" + newsItem!.summary + "</font>", baseURL: nil)
+        retryButton.enabled = false
+        
+        inWebView = false
+    }
+    
+    func loadWebPage() {
+        let url = NSURL(string: newsItem!.link)
+         newsWebView.loadRequest(NSURLRequest(URL: url!))
+         inWebView = true
+        
+       
+    }
+    
+    @IBAction func back(sender: AnyObject) {
+        newsWebView.goBack()
+    }
+    
+    @IBAction func share(sender: AnyObject) {
+        let activity = UIActivityViewController(activityItems: ["Shared using SMSU News iOS app",NSURL(string: newsItem!.link)!], applicationActivities: nil)
+        activity.completionWithItemsHandler = {(activityType, completion, items, error) -> Void in
+            if(error != nil) {
+                print(error?.description)
             }
-        return true;
+        }
+        self.presentViewController(activity, animated: true, completion: nil)
     }
     
-    func webViewDidStartLoad(webView: UIWebView) {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        if (keyPath == SNFullNewsViewController.LOADING_NOTIFICATION) {
+            backButton.enabled = newsWebView.canGoBack
+            self.retryButton.enabled = false;
+        }
+        if (keyPath == SNFullNewsViewController.PROGRESS_NOTIFICATION) {
+            progressView.hidden = newsWebView.estimatedProgress == 1
+            progressView.setProgress(Float(newsWebView.estimatedProgress), animated: true)
+        }
     }
     
-     func webViewDidFinishLoad(webView: UIWebView) {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        webView
+    
+    //MARK: WKNavigationDelegate
+    func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
+        progressView.setProgress(0.0, animated: false)
+        self.retryButton.enabled = inWebView;
+         UIApplication.sharedApplication().networkActivityIndicatorVisible = false;
     }
     
-    func webView(webView: UIWebView,
-        didFailLoadWithError error: NSError?) {
-            print("Failed to load url: \(self.newsURL)")
+    func webView(webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+         UIApplication.sharedApplication().networkActivityIndicatorVisible = true;
+    }
+    
+    func webView(webView: WKWebView,
+        didFailNavigation navigation: WKNavigation!,withError error: NSError) {
+            print("Failed to load url: \(newsItem?.link)")
+             UIApplication.sharedApplication().networkActivityIndicatorVisible = false;
+            if(inWebView) {
+                self.retryButton.enabled = true;
+                
+                let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .Alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+                presentViewController(alert, animated: true, completion: nil)
+            }
+    }
+
+    deinit{
+       
+            newsWebView.removeObserver(self, forKeyPath: SNFullNewsViewController.PROGRESS_NOTIFICATION)
+            newsWebView.removeObserver(self, forKeyPath: SNFullNewsViewController.LOADING_NOTIFICATION)
+      
     }
 }

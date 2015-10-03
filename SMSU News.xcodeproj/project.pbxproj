@@ -15,6 +15,7 @@
 		AC1B8E401BB501E200CE0A20 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC1B8E3F1BB501E200CE0A20 /* Assets.xcassets */; };
 		AC1B8E431BB501E200CE0A20 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC1B8E411BB501E200CE0A20 /* LaunchScreen.storyboard */; };
 		AC1B8E4B1BB5021900CE0A20 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = AC1B8E4A1BB5021900CE0A20 /* Podfile */; };
+		AC35F7C21BBE7BD400B826B1 /* SNDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC35F7C11BBE7BD400B826B1 /* SNDate.swift */; };
 		AC3C856C1BBBA9C200BF3C80 /* SNFullNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3C856B1BBBA9C200BF3C80 /* SNFullNewsViewController.swift */; };
 		AC4F16211BB51BE30050BAAF /* SNNewsRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4F16201BB51BE30050BAAF /* SNNewsRetriever.swift */; };
 		ACA2F2E11BBB7B7300FA54CA /* SNArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA2F2E01BBB7B7300FA54CA /* SNArray.swift */; };
@@ -40,6 +41,7 @@
 		AC1B8E441BB501E200CE0A20 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC1B8E4A1BB5021900CE0A20 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		AC1B8E4D1BB505F100CE0A20 /* SMSU News-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "SMSU News-Bridging-Header.h"; path = "Resources/SMSU News-Bridging-Header.h"; sourceTree = "<group>"; };
+		AC35F7C11BBE7BD400B826B1 /* SNDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SNDate.swift; path = "../../../../../BB026503/Documents/iOS-Projects/SMSU News/SMSU News/SNDate.swift"; sourceTree = "<group>"; };
 		AC3C856B1BBBA9C200BF3C80 /* SNFullNewsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SNFullNewsViewController.swift; sourceTree = "<group>"; };
 		AC4F16201BB51BE30050BAAF /* SNNewsRetriever.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SNNewsRetriever.swift; path = Service/SNNewsRetriever.swift; sourceTree = "<group>"; };
 		ACA2F2E01BBB7B7300FA54CA /* SNArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SNArray.swift; sourceTree = "<group>"; };
@@ -78,8 +80,8 @@
 		AC0D0BFD1BB5E75B00CAA889 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				AC1B8E371BB501E200CE0A20 /* SNNewsListTableViewController.swift */,
 				ACFBC4F51BBB22AA00869E28 /* SNMainTableViewController.swift */,
+				AC1B8E371BB501E200CE0A20 /* SNNewsListTableViewController.swift */,
 				AC3C856B1BBBA9C200BF3C80 /* SNFullNewsViewController.swift */,
 			);
 			name = Controllers;
@@ -131,7 +133,6 @@
 				AC1B8E4C1BB5056F00CE0A20 /* Resources */,
 				AC1B8E351BB501E200CE0A20 /* AppDelegate.swift */,
 				AC1B8E3F1BB501E200CE0A20 /* Assets.xcassets */,
-				AC1B8E411BB501E200CE0A20 /* LaunchScreen.storyboard */,
 				AC1B8E441BB501E200CE0A20 /* Info.plist */,
 				AC1B8E3C1BB501E200CE0A20 /* SMSU_News.xcdatamodeld */,
 			);
@@ -188,6 +189,7 @@
 				ACFE8C081BBA45330066E2D5 /* SNDictionary.swift */,
 				ACFE8C121BBA5E9B0066E2D5 /* SNString.swift */,
 				ACA2F2E01BBB7B7300FA54CA /* SNArray.swift */,
+				AC35F7C11BBE7BD400B826B1 /* SNDate.swift */,
 			);
 			name = Extentions;
 			sourceTree = "<group>";
@@ -196,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				ACFE8C0A1BBA47AD0066E2D5 /* SNTableViewCell.xib */,
+				AC1B8E411BB501E200CE0A20 /* LaunchScreen.storyboard */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -244,6 +247,7 @@
 				TargetAttributes = {
 					AC1B8E311BB501E200CE0A20 = {
 						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = 7WR7M9SDED;
 					};
 				};
 			};
@@ -342,6 +346,7 @@
 				AC1B8E381BB501E200CE0A20 /* SNNewsListTableViewController.swift in Sources */,
 				ACFBC4F61BBB22AA00869E28 /* SNMainTableViewController.swift in Sources */,
 				ACFE8C091BBA45330066E2D5 /* SNDictionary.swift in Sources */,
+				AC35F7C21BBE7BD400B826B1 /* SNDate.swift in Sources */,
 				ACFE8C111BBA483F0066E2D5 /* SNTableViewCell.swift in Sources */,
 				AC1B8E361BB501E200CE0A20 /* AppDelegate.swift in Sources */,
 				AC1B8E3E1BB501E200CE0A20 /* SMSU_News.xcdatamodeld in Sources */,
@@ -388,6 +393,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Bipin Budhathoki (7WR7M9SDED)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -433,6 +439,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Bipin Budhathoki (7WR7M9SDED)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -459,11 +466,15 @@
 			baseConfigurationReference = F83E961C1E170425FF20F250 /* Pods-SMSU News.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				INFOPLIST_FILE = "SMSU News/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.Budhathoki.SMSU-News";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bipinbudhathoki.SIFERss;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "SMSU News/Resources/SMSU News-Bridging-Header.h";
 			};
 			name = Debug;
@@ -473,11 +484,14 @@
 			baseConfigurationReference = D52E5F61D6EDB2CD8CFD6A52 /* Pods-SMSU News.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "SMSU News/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.Budhathoki.SMSU-News";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bipinbudhathoki.SIFERss;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "SMSU News/Resources/SMSU News-Bridging-Header.h";
 			};
 			name = Release;

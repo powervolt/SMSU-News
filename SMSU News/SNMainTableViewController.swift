@@ -18,11 +18,12 @@ class SNMainTableViewController: UITableViewController, SNFeedRetrieverDelegate,
     static let CELL_IDENTIFIER = "SNMainTableViewCell"
     
     var feeds: [SNFeed]?
-    var newsDict : Dictionary<String, [MWFeedItem]> = Dictionary<String, [MWFeedItem]>()
+    var newsDict = Dictionary<String, [MWFeedItem]>()
     
     var sectionTitles : [String] = [String]()
     var currentCount = 0
-    var retriever = NewsRetriever()
+    let newsRetriever = NewsRetriever()
+    let feedsRetriever = SNFeedRetriever()
     
     var sportsHeaders :[(title:String, parameter:String)] = [
         ("Baseball","baseball"), ("Football", "football"),
@@ -35,18 +36,38 @@ class SNMainTableViewController: UITableViewController, SNFeedRetrieverDelegate,
     ];
     
     var sportssectionTitles:[String] = [String]()
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         hud?.labelText = "Loading News"
-        hud?.dimBackground = true;
+        //hud?.dimBackground = true;
         
-        let feedsRetriever = SNFeedRetriever()
-        feedsRetriever.delegate = self
-        feedsRetriever.loadSNFeeds();
+        
+        self.feedsRetriever.delegate = self
+        self.feedsRetriever.loadSNFeeds();
+        
+        //add refresh controller
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl?.tintColor = UIColor.brownColor()
+        self.refreshControl?.addTarget(self, action: "reloadData", forControlEvents: .ValueChanged)
+        self.tableView.alwaysBounceVertical = true;
+    }
+    
+    func reloadData() {
+        if(self.refreshControl!.enabled) {
+            self.newsDict = Dictionary<String, [MWFeedItem]>()
+            self.sectionTitles = [String]()
+            self.feeds = [SNFeed]()
+            self.currentCount = 0
+            self.feedsRetriever.loadSNFeeds();
+            
+            self.refreshControl?.enabled = false;
+            
+            self.tableView.reloadData()
+        }
+        
+        self.refreshControl?.endRefreshing()
     }
     
     override func didReceiveMemoryWarning() {
@@ -54,11 +75,9 @@ class SNMainTableViewController: UITableViewController, SNFeedRetrieverDelegate,
         // Dispose of any resources that can be recreated.
     }
     
+    
     // MARK: SNFeedRetrieverDelegate methods
     func didLoadSNFeed(feeds: [SNFeed]) {
-        dispatch_async(dispatch_get_main_queue(),{
-            MBProgressHUD.hideHUDForView(self.view, animated: true)
-        })
         self.feeds = feeds;
         //seup for first section titles
         for feed:SNFeed in feeds {
@@ -75,8 +94,8 @@ class SNMainTableViewController: UITableViewController, SNFeedRetrieverDelegate,
         }
         
         if self.feeds?.count > 0 {
-            retriever.delegate = self
-            retriever.loadNews([self.feeds![self.currentCount++]])
+            newsRetriever.delegate = self
+            newsRetriever.loadNews([self.feeds![self.currentCount++]])
         }
         else {
             print("Empty Feeds")
@@ -86,6 +105,18 @@ class SNMainTableViewController: UITableViewController, SNFeedRetrieverDelegate,
     
     func didFailLoadingSNFeed(error: NSError!) {
         print("Failed Loading Feeds \(error?.description)")
+        
+        let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: {(action:UIAlertAction!) -> Void in
+            self.tableView.reloadData()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Retry", style: .Default, handler:{(action:UIAlertAction!) -> Void in
+         self.viewDidLoad()
+        }))
+        
+        presentViewController(alert, animated: true, completion: nil)
+        MBProgressHUD.hideHUDForView(self.view, animated: true)
     }
     
     // MARK: MWFeedParserDelegate methods
@@ -98,11 +129,19 @@ class SNMainTableViewController: UITableViewController, SNFeedRetrieverDelegate,
     func feedParserDidFinish(parser: MWFeedParser) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false;
         print("Finish Downloading Feed")
-        retriever.delegate = self
         
         if(self.feeds?.count > self.currentCount) {
-            retriever.loadNews([self.feeds![self.currentCount++]])
+            newsRetriever.loadNews([self.feeds![self.currentCount++]])
         }
+        
+        //enable refresh control is all news are loaded
+        if(self.newsDict.count == self.currentCount){
+            self.refreshControl?.enabled = true;
+        }
+        
+        dispatch_async(dispatch_get_main_queue(),{
+            MBProgressHUD.hideHUDForView(self.view, animated: true)
+        })
     }
     
     func feedParser(parser: MWFeedParser, didParseFeedInfo info: MWFeedInfo) {
@@ -152,8 +191,8 @@ class SNMainTableViewController: UITableViewController, SNFeedRetrieverDelegate,
     override func tableView(tableView: UITableView,
         cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
             let cell : UITableViewCell!  = tableView.dequeueReusableCellWithIdentifier(SNMainTableViewController.CELL_IDENTIFIER)
-            var key:String
             
+            var key:String
             if(indexPath.section == 0){
                 key = self.sectionTitles[indexPath.row]
             }
@@ -170,7 +209,12 @@ class SNMainTableViewController: UITableViewController, SNFeedRetrieverDelegate,
             cell.detailTextLabel?.text = "(\(newsCount))"
             
             if(newsCount > 0){
+                cell.userInteractionEnabled = true
                 cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+            }
+            else {
+                cell.userInteractionEnabled = false
+                cell.accessoryType = UITableViewCellAccessoryType.None
             }
             
             return cell
