@@ -84,7 +84,11 @@ class SNFullNewsViewController: UIViewController, WKNavigationDelegate {
     }
     
     func loadHTMLSummary() {
-        newsWebView.loadHTMLString("</br>" + "<b><font size=\"45\">" + newsItem!.title + "</font></b></br></br>" + "<font size=\"30\">" + newsItem!.summary + "</font>", baseURL: nil)
+        let newsDate = newsItem?.date.getNewsDateString()
+        newsWebView.loadHTMLString(
+            "</br><b><font size=\"45\"> \(newsItem!.title)</b></font><font size=\"30\"> - \(newsDate!)</br>\(newsItem!.summary) </br> </font>",
+            baseURL: nil
+        )
         retryButton.enabled = false
         
         inWebView = false

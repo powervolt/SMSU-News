@@ -66,7 +66,6 @@ class SNNewsListTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView,
         editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-            
             let shareAction = UITableViewRowAction(style: UITableViewRowActionStyle.Normal, title: "Share", handler: {(action:UITableViewRowAction!, indexPath:NSIndexPath!) -> Void in
                 let item = self.newsList[indexPath.row]
                 let activity = UIActivityViewController(activityItems: ["Shared using SMSU News iOS app",NSURL(string: item.link)!], applicationActivities: nil)
@@ -82,11 +81,13 @@ class SNNewsListTableViewController: UITableViewController {
             
             shareAction.backgroundColor = self.view.tintColor
             
-            let flagAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Flag", handler: {(action:UITableViewRowAction!, indexPath:NSIndexPath!) -> Void in
+            let flagAction = UITableViewRowAction(style: UITableViewRowActionStyle.Normal, title: "Flag", handler: {(action:UITableViewRowAction!, indexPath:NSIndexPath!) -> Void in
                 //add the 
                 
                 self.endEditing()
             })
+            
+            flagAction.backgroundColor = UIColor.orangeColor()
             
             return [shareAction, flagAction]
     }

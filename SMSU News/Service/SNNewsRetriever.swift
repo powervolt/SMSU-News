@@ -9,7 +9,7 @@
 import UIKit
 import MWFeedParser
 
-class NewsRetriever :NSObject {
+class NewsRetriever {
     
     weak var delegate : MWFeedParserDelegate?
     

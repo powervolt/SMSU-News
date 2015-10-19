@@ -32,7 +32,7 @@ PODS:
   - MWFeedParser/NSString+HTML (1.0.1)
 
 DEPENDENCIES:
-  - AFNetworking
+  - AFNetworking (~> 2.6.0)
   - MBProgressHUD (~> 0.9.1)
   - MWFeedParser (~> 1.0.1)
 

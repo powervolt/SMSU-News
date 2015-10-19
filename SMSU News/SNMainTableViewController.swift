@@ -50,15 +50,12 @@ class SNMainTableViewController: UITableViewController, SNFeedRetrieverDelegate,
         //add refresh controller
         self.refreshControl = UIRefreshControl()
         self.refreshControl?.tintColor = UIColor.brownColor()
-        self.refreshControl?.addTarget(self, action: "reloadData", forControlEvents: .ValueChanged)
+        self.refreshControl?.addTarget(self, action: "refreshData", forControlEvents: .ValueChanged)
         self.tableView.alwaysBounceVertical = true;
     }
     
-    func reloadData() {
-        if(self.refreshControl!.enabled) {
-            self.newsDict = Dictionary<String, [MWFeedItem]>()
-            self.sectionTitles = [String]()
-            self.feeds = [SNFeed]()
+    func refreshData() {
+        if (self.refreshControl!.enabled) {
             self.currentCount = 0
             self.feedsRetriever.loadSNFeeds();
             
@@ -75,9 +72,10 @@ class SNMainTableViewController: UITableViewController, SNFeedRetrieverDelegate,
         // Dispose of any resources that can be recreated.
     }
     
-    
     // MARK: SNFeedRetrieverDelegate methods
     func didLoadSNFeed(feeds: [SNFeed]) {
+        self.newsDict = Dictionary<String, [MWFeedItem]>()
+        self.sectionTitles = [String]()
         self.feeds = feeds;
         //seup for first section titles
         for feed:SNFeed in feeds {

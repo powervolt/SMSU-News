@@ -5,7 +5,6 @@
 //  Created by Budhathoki,Bipin on 9/25/15.
 //  Copyright © 2015 Bipin Budhathoki. All rights reserved.
 //
-// mustang feed http://smsumustangs.com/rss_feeds.aspx
 class SNFeed {
     var name : String
     var url : String
