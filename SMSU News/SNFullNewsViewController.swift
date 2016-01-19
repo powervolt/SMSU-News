@@ -75,18 +75,25 @@ class SNFullNewsViewController: UIViewController, WKNavigationDelegate {
     }
     
     func segmentedControlTapped(control: UISegmentedControl) {
-        if(control.selectedSegmentIndex == 0){
+        if (control.selectedSegmentIndex == 0){
            loadHTMLSummary()
-        }
-        else {
+        } else {
             loadWebPage()
         }
     }
     
     func loadHTMLSummary() {
         let newsDate = newsItem?.date.getNewsDateString()
+        var fontSize : Int
+        
+        if (UIDevice.currentDevice().userInterfaceIdiom == .Pad){
+            fontSize = 20;
+        } else {
+            fontSize = 45;
+        }
+        
         newsWebView.loadHTMLString(
-            "</br><b><font size=\"45\"> \(newsItem!.title)</b></font><font size=\"30\"> - \(newsDate!)</br>\(newsItem!.summary) </br> </font>",
+            "</br><b><font size=\"\(fontSize)\">\(newsItem!.title)</b></font><font size=\"\(fontSize-15)\"> - \(newsDate!)</br>\(newsItem!.summary)</br></font>",
             baseURL: nil
         )
         retryButton.enabled = false

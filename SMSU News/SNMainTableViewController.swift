@@ -10,10 +10,12 @@ import UIKit
 import MBProgressHUD
 import MWFeedParser
 import Social
+import AVFoundation
 
 class SNMainTableViewController: UITableViewController, SNFeedRetrieverDelegate, MWFeedParserDelegate {
     
     private var hud : MBProgressHUD?
+    private var audioPlayer : AVAudioPlayer?
     
     static let CELL_IDENTIFIER = "SNMainTableViewCell"
     
@@ -43,7 +45,6 @@ class SNMainTableViewController: UITableViewController, SNFeedRetrieverDelegate,
         hud?.labelText = "Loading News"
         //hud?.dimBackground = true;
         
-        
         self.feedsRetriever.delegate = self
         self.feedsRetriever.loadSNFeeds();
         
@@ -55,6 +56,8 @@ class SNMainTableViewController: UITableViewController, SNFeedRetrieverDelegate,
     }
     
     func refreshData() {
+        self.refreshAudioPlayer()?.play()
+        
         if (self.refreshControl!.enabled) {
             self.currentCount = 0
             self.feedsRetriever.loadSNFeeds();
@@ -65,6 +68,19 @@ class SNMainTableViewController: UITableViewController, SNFeedRetrieverDelegate,
         }
         
         self.refreshControl?.endRefreshing()
+    }
+    
+    func refreshAudioPlayer() -> AVAudioPlayer? {
+        let soundPath =  NSBundle.mainBundle().pathForResource("slide-network", ofType: "aif")
+        let url = NSURL(fileURLWithPath: soundPath!)
+        do {
+            try audioPlayer = AVAudioPlayer(contentsOfURL: url)
+            audioPlayer?.prepareToPlay()
+        } catch let error as NSError {
+            print("Error loding refresh sound file: \(error.description)")
+        }
+        
+        return audioPlayer
     }
     
     override func didReceiveMemoryWarning() {

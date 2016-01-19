@@ -19,6 +19,8 @@
 		AC3C856C1BBBA9C200BF3C80 /* SNFullNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3C856B1BBBA9C200BF3C80 /* SNFullNewsViewController.swift */; };
 		AC4F16211BB51BE30050BAAF /* SNNewsRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4F16201BB51BE30050BAAF /* SNNewsRetriever.swift */; };
 		ACA2F2E11BBB7B7300FA54CA /* SNArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA2F2E01BBB7B7300FA54CA /* SNArray.swift */; };
+		ACD565591BD49E870061C088 /* slide-network.aif in Resources */ = {isa = PBXBuildFile; fileRef = ACD565581BD49E870061C088 /* slide-network.aif */; };
+		ACD5655B1BD49EC30061C088 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACD5655A1BD49EC30061C088 /* AVFoundation.framework */; };
 		ACF9DC0E1BBC271800A8FEE1 /* SMSU_NEWS.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACF9DC0D1BBC271800A8FEE1 /* SMSU_NEWS.xcassets */; };
 		ACFBC4F61BBB22AA00869E28 /* SNMainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACFBC4F51BBB22AA00869E28 /* SNMainTableViewController.swift */; };
 		ACFE0CF01BB52BED00CD4344 /* SNFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACFE0CEF1BB52BED00CD4344 /* SNFeed.swift */; };
@@ -45,6 +47,8 @@
 		AC3C856B1BBBA9C200BF3C80 /* SNFullNewsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SNFullNewsViewController.swift; sourceTree = "<group>"; };
 		AC4F16201BB51BE30050BAAF /* SNNewsRetriever.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SNNewsRetriever.swift; path = Service/SNNewsRetriever.swift; sourceTree = "<group>"; };
 		ACA2F2E01BBB7B7300FA54CA /* SNArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SNArray.swift; sourceTree = "<group>"; };
+		ACD565581BD49E870061C088 /* slide-network.aif */ = {isa = PBXFileReference; lastKnownFileType = file; name = "slide-network.aif"; path = "../../../../../BB026503/Documents/iOS-Projects/SMSU News/SMSU News/Sound/slide-network.aif"; sourceTree = "<group>"; };
+		ACD5655A1BD49EC30061C088 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		ACF9DC0D1BBC271800A8FEE1 /* SMSU_NEWS.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = SMSU_NEWS.xcassets; path = Resources/SMSU_NEWS.xcassets; sourceTree = "<group>"; };
 		ACFBC4F51BBB22AA00869E28 /* SNMainTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SNMainTableViewController.swift; sourceTree = "<group>"; };
 		ACFE0CEF1BB52BED00CD4344 /* SNFeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SNFeed.swift; path = Model/SNFeed.swift; sourceTree = "<group>"; };
@@ -62,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACD5655B1BD49EC30061C088 /* AVFoundation.framework in Frameworks */,
 				725B47C330375362580DBF00 /* Pods_SMSU_News.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -72,6 +77,7 @@
 		2E11063781FB3BA934F5561C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ACD5655A1BD49EC30061C088 /* AVFoundation.framework */,
 				084BDA7D69E0965EB5B44FAE /* Pods_SMSU_News.framework */,
 			);
 			name = Frameworks;
@@ -142,6 +148,7 @@
 		AC1B8E4C1BB5056F00CE0A20 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				ACD565531BD49DB30061C088 /* Sounds */,
 				ACFE8C0C1BBA47B30066E2D5 /* Views */,
 				AC0D0BFF1BB5E79B00CAA889 /* Storyboards */,
 				AC1B8E4D1BB505F100CE0A20 /* SMSU News-Bridging-Header.h */,
@@ -173,6 +180,14 @@
 			children = (
 			);
 			name = Common;
+			sourceTree = "<group>";
+		};
+		ACD565531BD49DB30061C088 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				ACD565581BD49E870061C088 /* slide-network.aif */,
+			);
+			name = Sounds;
 			sourceTree = "<group>";
 		};
 		ACFE0CF11BB52C3300CD4344 /* Model */ = {
@@ -280,6 +295,7 @@
 				AC1B8E4B1BB5021900CE0A20 /* Podfile in Resources */,
 				AC1B8E3B1BB501E200CE0A20 /* SMSUNews.storyboard in Resources */,
 				ACFE8C0B1BBA47AD0066E2D5 /* SNTableViewCell.xib in Resources */,
+				ACD565591BD49E870061C088 /* slide-network.aif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
